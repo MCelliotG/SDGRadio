@@ -1,5 +1,7 @@
+from __future__ import absolute_import
+from __future__ import print_function
 from . import _
-from utils import SDR_MIN_FREQ, SDR_MAX_FREQ, DAB_FREQ, SKIN
+from .utils import SDR_MIN_FREQ, SDR_MAX_FREQ, DAB_FREQ, SKIN
 from Components.ActionMap import HelpableActionMap, ActionMap
 from Components.AVSwitch import AVSwitch
 from Components.config import config, getConfigListEntry, ConfigSubsection, ConfigText, ConfigSelection, ConfigSelectionNumber, ConfigYesNo, ConfigFloat
@@ -367,7 +369,7 @@ class SDGRadioScreen(Screen, HelpableScreen):
 		else:
 			cmd = "rtl_fm -f %sM -M wbfm -s 200000 -r 48000 - | gst-launch-1.0 fdsrc ! audio/x-raw, format=S16LE, channels=1, layout=interleaved, rate=48000 ! dvbaudiosink" % self.frequency.value
 
-		print "[SDGRadio] playRadio cmd: %s" % cmd
+		print("[SDGRadio] playRadio cmd: %s" % cmd)
 		self.console.execute(cmd)
 
 	def processRds(self, data):
@@ -396,7 +398,7 @@ class SDGRadioScreen(Screen, HelpableScreen):
 				self["prog_type"].setText(rds["prog_type"].encode("utf8"))
 
 			if "pi" in rds and not "callsign" in rds and self["pi"].getText() != rds["pi"].encode("utf8"):
-				self["pi"].setText(rds["pi"].encode("utf8").replace("0x","PI: "))
+				self["pi"].setText(rds["pi"].encode("utf8").replace("0x", "PI: "))
 
 			if "callsign" in rds and self["pi"].getText() != rds["callsign"].encode("utf8"):
 				self["pi"].setText(rds["callsign"].encode("utf8"))
@@ -442,7 +444,7 @@ class SDGRadioScreen(Screen, HelpableScreen):
 		except Exception as e:
 			msg = "processRds exception: %s data: %s\n" % (e, binascii.hexlify(data))
 			self.log.append(msg)
-			print "[SDGRadio] %s" % msg
+			print("[SDGRadio] %s" % msg)
 
 	def rdsOptions(self):
 		if self.usepartial and not self.userbds:
